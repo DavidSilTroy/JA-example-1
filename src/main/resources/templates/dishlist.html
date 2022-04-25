@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Examples</title>
+</head>
+<body>
+
+<h3>These are all the currently registered dishes:</h3>
+
+<ul>
+    <li th:each="dish : ${dishList}"
+        th:text = "${dish.getName()} + ' (' + ${dish.getCalories()} +' calories)'"/>
+</ul>
+
+<h3>Select a dish from the following list:</h3>
+
+<!--List of hyperlinks-->
+<ul>
+    <li th:each="dish : ${dishList}">
+        <a th:href="@{/dishdetails(dishIndex=${dishStat.index})}"
+           th:text="${dish.getName()}"/>
+    </li>
+</ul>
+
+<h3>Or select a dish from the dropdown list:</h3>
+
+<!--Dropdown list-->
+<form action="/dishdetails">
+    <select name="dishIndex">
+        <option value="-1">Choose a dish</option>
+        <option th:each="dish : ${dishList}"
+                th:text="${dish.getName()}"
+                th:value="${dishStat.index}"/>
+    </select>
+    <input type="submit" value="Select" name="selectbutton"/>
+</form>
+
+<h3>Or select a dish using these radiobuttons:</h3>
+
+<!--Selectable radiobuttons-->
+<form action="/dishdetails">
+    <p th:each="dish : ${dishList}">
+        <input type="radio" name="dishIndex"
+           th:value="${dishStat.index}"
+           th:id="${dishStat.index}"/>
+        <label th:for="${dishStat.index}"
+           th:text="${dish.getName()}"></label>
+    </p>
+    <input type="submit" value="Select" name="selectbutton"/>
+</form>
+
+<p><a href="/">Back to the homepage</a></p>
+
+</body>
+</html>
